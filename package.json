@@ -11,9 +11,9 @@
     "node": ">=16"
   },
   "keywords": [
-    "og",
-    "open graph",
-    "screenshot",
+    "env",
+    "t3",
+    "nextjs",
     "cli",
     "command line",
     "tool",
