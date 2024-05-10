@@ -1,6 +1,6 @@
 {
   "name": "env-to-t3",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "bin": {
     "env-to-t3": "dist/cli.js"
