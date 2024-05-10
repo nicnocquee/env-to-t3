@@ -1,0 +1,78 @@
+{
+  "name": "env-to-t3",
+  "version": "0.0.0",
+  "license": "MIT",
+  "bin": {
+    "env-to-t3": "dist/cli.js"
+  },
+  "url": "https://github.com/nicnocquee/env-to-t3",
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": [
+    "og",
+    "open graph",
+    "screenshot",
+    "cli",
+    "command line",
+    "tool",
+    "utility"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc && npm run copy-files",
+    "dev": "tsc --watch",
+    "test": "prettier --check . && xo && ava",
+    "copy-files": "copyfiles -f readme.md LICENSE source/*.ejs dist/",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "ejs": "^3.1.10",
+    "ink": "^4.4.1",
+    "ink-spinner": "^5.0.0",
+    "meow": "^13.2.0",
+    "p-map": "^7.0.2",
+    "react": "^18.3.1",
+    "rss-parser": "^3.13.0",
+    "sitemapper": "^3.2.8"
+  },
+  "devDependencies": {
+    "@sindresorhus/tsconfig": "^5.0.0",
+    "@types/ejs": "^3.1.5",
+    "@types/react": "^18.3.1",
+    "@vdemedes/prettier-config": "^2.0.1",
+    "ava": "^6.1.2",
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
+    "eslint-config-xo-react": "^0.27.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "ink-testing-library": "^3.0.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.9.1",
+    "typescript": "^5.4.5",
+    "xo": "^0.58.0"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module",
+      "tsx": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
+  },
+  "xo": {
+    "extends": "xo-react",
+    "prettier": true,
+    "rules": {
+      "react/prop-types": "off"
+    }
+  }
+}
