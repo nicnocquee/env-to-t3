@@ -5,14 +5,14 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    DATABASE_URL: z.string(),
+    DATABASE_URL: z.string().optional(),
     OPEN_AI_API_KEY: z.number().min(1),
-    MINIMUM_DAYS: z.number().default(1),
+    MINIMUM_DAYS: z.number().default(1).optional(),
     MINIMUM_MEMBERS: z.number().min(1).default(10),
     MINIMUM_HEADS: z.number().min(1).default(0),
   },
   client: {
-    NEXT_PUBLIC_PUBLISHABLE_KEY: z.string(),
+    NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().optional(),
     NEXT_PUBLIC_MAXIMUM_HEADS: z.number().min(1).default(0),
     NEXT_PUBLIC_MAXIMUM_DAYS: z.number().min(1).default(10),
   },
