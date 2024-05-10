@@ -1,12 +1,12 @@
 # env-to-t3
 
-This is a CLI to generate a TypeScript code to use environment variables safely using [T3 env](https://env.t3.gg).
+This is a CLI to generate TypeScript code to safely use environment variables with [T3 env](https://env.t3.gg).
 
 ## Why?
 
-Accessing environment variables directly (e.g., `process.env.API_KEY`) in your TypeScript code is not safe. If you forget to add the environment variable, your code might break. That's why a tool like T3 Env can be very helpful. You can use your environment variables in a safe way and fully typed thanks to [Zod](https://zod.dev).
+Direct access to environment variables (e.g. `process.env.API_KEY`) in your TypeScript code is not safe. If you forget to add the environment variable, your code may break. That's why a tool like T3 Env can be very helpful. You can use your environment variables in a safe and fully typed way thanks to [Zod](https://zod.dev).
 
-But writing the code is [a bit tedious](https://env.t3.gg/docs/nextjs#create-your-schema). For example, you have 3 environment variables that you want to use in your code. During the development, you need to write the `.env` file like this:
+But writing the code is [a bit tedious](https://env.t3.gg/docs/nextjs#create-your-schema). For example, you have 3 environment variables that you want to use in your code. During development, you need to write the `.env` file like this
 
 ```
 DATABASE_URL=postgres://localhost:5432/my-app
@@ -34,20 +34,20 @@ export const env = createEnv({
 })
 ```
 
-Notice that you need to write `NEXT_PUBLIC_PUBLISHABLE_KEY` four times in total.
+Note that you have to write `NEXT_PUBLIC_PUBLISHABLE_KEY` four times in total.
 
-By using this script, you don't need to write the code by hands anymore. Just run the script and it will generate the code for you.
+By using this script, you don't have to write the code by hand anymore. Just run the script and it will generate the code for you.
 
 ## Features
 
-- By default, all environment variables will be considered as string.
-- When the environment variable ends with `_URL`, it will be converted to a `z.string().url()` type.
-- When the environment variable has `NEXT_PUBLIC_` prefix, it will be considered as a client-side environment variable.
-- When the environment variable has `# required` comment, it will be has a `.min(1)` constraint.
-- When the environment variable has `# number` comment, it will be has a `.number()` constraint.
-- When the environment variable has `# default` comment, it will be has a `.default()` constraint. The value of the default will be the value of the environment variable if it exists, or `0` if it is a number, or an empty string if it is a string.
+- By default, all environment variables are considered to be strings.
+- If the environment variable ends with `_URL`, it will be converted to a `z.string().url()` type.
+- If the environment variable has a `NEXT_PUBLIC_` prefix, it is considered a client-side environment variable. You can override this prefix by using the `--client-prefix` flag.
+- If the environment variable has a `# required` comment, it has a `.min(1)` constraint.
+- If the environment variable has a `# number` comment, it will have a `.number()` constraint.
+- If the environment variable has the `# default` comment, it will have a `.default()`constraint. The value of the default will be the value of the environment variable if it exists, or `0` if it is a number, or an empty string if it is a string.
 
-Example, you have the following `.env` file:
+For example, you have the following `.env` file:
 
 ```env
 DATABASE_URL=abcd
@@ -57,7 +57,7 @@ MINIMUM_DAYS=1 # number
 MINIMUM_MEMBERS=10 # number default required
 ```
 
-Running `env-to-t3` script will generate the following `env.ts` file:
+Running the `env-to-t3` script will produce the following `env.ts` file:
 
 ```typescript
   server: {
@@ -81,7 +81,7 @@ Running `env-to-t3` script will generate the following `env.ts` file:
 npm i -g env-to-t3
 ```
 
-Or you can also directly execute the command:
+Or you can run the command directly:
 
 ```shell
 npx env-to-t3 -i .env
