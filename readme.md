@@ -60,23 +60,19 @@ MINIMUM_MEMBERS=10 # number default required
 Running `env-to-t3` script will generate the following `env.ts` file:
 
 ```typescript
-import { createEnv } from '@t3-oss/env-nextjs'
-import { z } from 'zod'
-
-export const env = createEnv({
   server: {
-    DATABASE_URL: z.string(),
+    DATABASE_URL: z.string().optional(),
     OPEN_AI_API_KEY: z.number().min(1),
-    MINIMUM_DAYS: z.number(),
+    MINIMUM_DAYS: z.number().default(1).optional(),
     MINIMUM_MEMBERS: z.number().min(1).default(10),
   },
   client: {
-    NEXT_PUBLIC_PUBLISHABLE_KEY: z.string(),
+    NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().optional(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_PUBLISHABLE_KEY,
-  },
-})
+  }
+});
 ```
 
 ## Install
