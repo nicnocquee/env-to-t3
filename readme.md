@@ -115,7 +115,7 @@ npx env-to-t3 -i .env
 Run
 
 ```bash
-npx tsx source/cli.tsx --url "https://example.com"
+npx tsx source/cli.tsx -i "./__tests__/.env"
 ```
 
 ## License
