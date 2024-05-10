@@ -45,6 +45,7 @@ By using this script, you don't need to write the code by hands anymore. Just ru
 - When the environment variable has `NEXT_PUBLIC_` prefix, it will be considered as a client-side environment variable.
 - When the environment variable has `# required` comment, it will be has a `.min(1)` constraint.
 - When the environment variable has `# number` comment, it will be has a `.number()` constraint.
+- When the environment variable has `# default` comment, it will be has a `.default()` constraint. The value of the default will be the value of the environment variable if it exists, or `0` if it is a number, or an empty string if it is a string.
 
 Example, you have the following `.env` file:
 
@@ -53,6 +54,7 @@ DATABASE_URL=abcd
 OPEN_AI_API_KEY=1 # number required
 NEXT_PUBLIC_PUBLISHABLE_KEY=abcd
 MINIMUM_DAYS=1 # number
+MINIMUM_MEMBERS=10 # number default required
 ```
 
 Running `env-to-t3` script will generate the following `env.ts` file:
@@ -66,6 +68,7 @@ export const env = createEnv({
     DATABASE_URL: z.string(),
     OPEN_AI_API_KEY: z.number().min(1),
     MINIMUM_DAYS: z.number(),
+    MINIMUM_MEMBERS: z.number().min(1).default(10),
   },
   client: {
     NEXT_PUBLIC_PUBLISHABLE_KEY: z.string(),

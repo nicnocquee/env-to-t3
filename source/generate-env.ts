@@ -6,6 +6,7 @@ type EnvVarInfo = {
   name: string
   validationType: 'string' | 'number'
   required: boolean
+  defaultValue: string | number | null
 }
 
 // Function to read the environment file and categorize variables with advanced validation logic
@@ -18,21 +19,34 @@ const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
   lines.forEach((line) => {
     const [variable, comment] = line.split('#')
     if (!variable || !variable.trim()) return
-    const [key] = variable.split('=').map((part) => part.trim())
-    if (!key) return
+    const [key, value] = variable.split('=')
+    if (!key || !key.trim()) return // Ensure key exists and is not just whitespace
 
-    // Parsing comments for multiple checks
+    const trimmedKey = key.trim()
+    const trimmedValue = value ? value.trim() : null // Handle case where value might be undefined or only whitespace
     const comments = comment ? comment.toLowerCase().split(' ') : []
+
     const isRequired = comments.includes('required')
     const isNumber = comments.includes('number')
+    const hasDefault = comments.includes('default')
 
-    const varInfo: EnvVarInfo = {
-      name: key,
-      validationType: isNumber ? 'number' : 'string',
-      required: isRequired,
+    let defaultValue: string | number | null = null
+    if (hasDefault) {
+      if (isNumber) {
+        defaultValue = trimmedValue ? Number(trimmedValue) : 0
+      } else {
+        defaultValue = trimmedValue || ''
+      }
     }
 
-    if (key.startsWith(clientVarPrefix)) {
+    const varInfo: EnvVarInfo = {
+      name: trimmedKey,
+      validationType: isNumber ? 'number' : 'string',
+      required: isRequired,
+      defaultValue: defaultValue,
+    }
+
+    if (trimmedKey.startsWith(clientVarPrefix)) {
       clientVars.push(varInfo)
     } else {
       serverVars.push(varInfo)

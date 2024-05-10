@@ -5,10 +5,14 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {<% serverVars.forEach(function(varInfo) { %>
-    <%= varInfo.name %>: z.<%= varInfo.validationType %>()<%= varInfo.required ? '.min(1)' : '' %>,<% }); %>
+    <%= varInfo.name %>: z.<%= varInfo.validationType %>()<%
+    if (varInfo.required) { %>.min(1)<% } %><%
+    if (varInfo.defaultValue !== null) { %>.default(<%= JSON.stringify(varInfo.defaultValue) %>)<% } %>,<% }); %>
   },
   client: {<% clientVars.forEach(function(varInfo) { %>
-    <%= varInfo.name %>: z.<%= varInfo.validationType %>()<%= varInfo.required ? '.min(1)' : '' %>,<% }); %>
+    <%= varInfo.name %>: z.<%= varInfo.validationType %>()<%
+    if (varInfo.required) { %>.min(1)<% } %><%
+    if (varInfo.defaultValue !== null) { %>.default(<%= JSON.stringify(varInfo.defaultValue) %>)<% } %>,<% }); %>
   },
   experimental__runtimeEnv: {<% clientVars.forEach(function(varInfo) { %>
     <%= varInfo.name %>: process.env.<%= varInfo.name %>,<% }); %>
