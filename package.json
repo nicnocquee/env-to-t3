@@ -1,6 +1,6 @@
 {
   "name": "env-to-t3",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "bin": {
     "env-to-t3": "dist/cli.js"
@@ -24,7 +24,8 @@
     "dev": "tsc --watch",
     "test": "prettier --check . && xo && ava",
     "copy-files": "copyfiles -f readme.md LICENSE source/*.ejs dist/",
-    "prepublishOnly": "npm run build"
+    "bump": "npm version patch --force",
+    "prepublishOnly": "npm run bump && npm run build"
   },
   "files": [
     "dist"
