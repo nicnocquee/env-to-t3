@@ -103,6 +103,10 @@ npx env-to-t3 -i .env
     $ env-to-t3 --input .env
 ```
 
+## Notes
+
+- The generated code is compatible with Next.js >= 13.4.4 as mentioned in [the T3 env documentation](https://env.t3.gg/docs/nextjs#create-your-schema).
+
 ## Development
 
 Run
