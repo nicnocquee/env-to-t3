@@ -1,1 +1,3 @@
 dist
+prettier.config.cjs
+__tests__/expected-env.ts

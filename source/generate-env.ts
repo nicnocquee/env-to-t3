@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 import ejs from 'ejs'
 
 // Helper type for environment variable information
@@ -11,16 +11,16 @@ type EnvVarInfo = {
 
 // Function to read the environment file and categorize variables with advanced validation logic
 const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
-  const content = fs.readFileSync(filePath, 'utf-8')
+  const content = fs.readFileSync(filePath, 'utf8')
   const lines = content.split(/\r?\n/)
   const serverVars: EnvVarInfo[] = []
   const clientVars: EnvVarInfo[] = []
 
-  lines.forEach((line) => {
+  for (const line of lines) {
     const [variable, comment] = line.split('#')
-    if (!variable || !variable.trim()) return
+    if (!variable?.trim()) continue
     const [key, value] = variable.split('=')
-    if (!key || !key.trim()) return // Ensure key exists and is not just whitespace
+    if (!key?.trim()) continue // Ensure key exists and is not just whitespace
 
     const trimmedKey = key.trim()
     const trimmedValue = value ? value.trim() : null // Handle case where value might be undefined or only whitespace
@@ -35,7 +35,7 @@ const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
       if (isNumber) {
         defaultValue = trimmedValue ? Number(trimmedValue) : 0
       } else {
-        defaultValue = trimmedValue || ''
+        defaultValue = trimmedValue || '' // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
       }
     }
 
@@ -43,7 +43,7 @@ const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
       name: trimmedKey,
       validationType: isNumber ? 'number' : 'string',
       required: isRequired,
-      defaultValue: defaultValue,
+      defaultValue,
     }
 
     if (trimmedKey.startsWith(clientVarPrefix)) {
@@ -51,7 +51,7 @@ const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
     } else {
       serverVars.push(varInfo)
     }
-  })
+  }
 
   return { serverVars, clientVars }
 }
@@ -69,7 +69,7 @@ export const generateEnv = ({
 }) => {
   // Render the TypeScript file from the EJS template
   const { serverVars, clientVars } = parseEnvFile(envFile, clientVarPrefix)
-  const template = fs.readFileSync(templateFile, 'utf-8')
+  const template = fs.readFileSync(templateFile, 'utf8')
 
   const rendered = ejs.render(template, { serverVars, clientVars })
   fs.writeFileSync(outputFile, rendered)

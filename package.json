@@ -22,7 +22,7 @@
   "scripts": {
     "build": "rimraf dist && tsc && npm run copy-files",
     "dev": "tsc --watch",
-    "test": "prettier --check . && xo && ava",
+    "test": "prettier --check . && xo && tsx node_modules/.bin/ava",
     "copy-files": "copyfiles -f readme.md LICENSE source/*.ejs dist/",
     "bump": "npm version patch --force",
     "prepublishOnly": "npm run bump && npm run build"
@@ -61,19 +61,24 @@
     "xo": "^0.58.0"
   },
   "ava": {
+    "files": [
+      "__tests__/**/*.test.ts"
+    ],
     "extensions": {
-      "ts": "module",
-      "tsx": "module"
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
+      "js": true,
+      "ts": "commonjs"
+    }
   },
   "xo": {
     "extends": "xo-react",
     "prettier": true,
+    "ignores": [
+      "__tests__/expected-env.ts"
+    ],
     "rules": {
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "@typescript-eslint/ban-types": "off"
     }
   }
 }

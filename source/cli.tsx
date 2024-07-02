@@ -1,12 +1,13 @@
 #!/usr/bin/env node
+/* eslint-disable n/prefer-global/process */
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import meow from 'meow'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import { generateEnv } from './generate-env.js'
 
-const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
-const __dirname = path.dirname(__filename) // get the name of the directory
+const __filename = fileURLToPath(import.meta.url) // Get the resolved path to the file
+const __dirname = path.dirname(__filename) // Get the name of the directory
 
 const cli = meow(
   `
