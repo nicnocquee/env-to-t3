@@ -44,7 +44,7 @@ By using this script, you don't have to write the code by hand anymore. Just run
 - If the environment variable ends with `_URL`, it will be converted to a `z.string().url()` type.
 - If the environment variable has a `NEXT_PUBLIC_` prefix, it is considered a client-side environment variable. You can override this prefix by using the `--client-prefix` flag.
 - If the environment variable has a `# required` comment, it has a `.min(1)` constraint.
-- If the environment variable has a `# number` comment, it will have a `.number()` constraint.
+- If the environment variable has a `# number` comment, it will have a `.number({ coerce: true })` constraint.
 - If the environment variable has the `# default` comment, it will have a `.default()`constraint. The value of the default will be the value of the environment variable if it exists, or `0` if it is a number, or an empty string if it is a string.
 
 For example, you have the following `.env` file:
@@ -62,9 +62,9 @@ Running the `env-to-t3` script will produce the following `env.ts` file:
 ```typescript
   server: {
     DATABASE_URL: z.string().optional(),
-    OPEN_AI_API_KEY: z.number().min(1),
-    MINIMUM_DAYS: z.number().default(1).optional(),
-    MINIMUM_MEMBERS: z.number().min(1).default(10),
+    OPEN_AI_API_KEY: z.number({ coerce: true }).min(1),
+    MINIMUM_DAYS: z.number({ coerce: true }).default(1).optional(),
+    MINIMUM_MEMBERS: z.number({ coerce: true }).default(10),
   },
   client: {
     NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().optional(),

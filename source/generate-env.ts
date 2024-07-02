@@ -4,7 +4,7 @@ import ejs from 'ejs'
 // Helper type for environment variable information
 type EnvVarInfo = {
   name: string
-  validationType: 'string' | 'number'
+  validationType: string
   required: boolean
   defaultValue: string | number | null
 }
@@ -41,7 +41,7 @@ const parseEnvFile = (filePath: string, clientVarPrefix: string) => {
 
     const varInfo: EnvVarInfo = {
       name: trimmedKey,
-      validationType: isNumber ? 'number' : 'string',
+      validationType: isNumber ? 'number({ coerce: true })' : 'string()',
       required: isRequired,
       defaultValue,
     }
