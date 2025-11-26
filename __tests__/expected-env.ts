@@ -10,6 +10,7 @@ export const env = createEnv({
     MINIMUM_DAYS: z.number({ coerce: true }).default(1).optional(),
     MINIMUM_MEMBERS: z.number({ coerce: true }).min(1).default(10),
     MINIMUM_HEADS: z.number({ coerce: true }).min(1).default(0),
+    NODE_ENV: z.string().min(1).default("production"),
   },
   client: {
     NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().optional(),
